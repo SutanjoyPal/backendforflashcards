@@ -1,16 +1,22 @@
 import express from 'express';
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const db =  mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '12345',
-    database: 'flashcard'
+    // host: 'localhost',
+    // user: 'root',
+    // password: '12345',
+    // database: 'flashcard'
+    host: process.env.DB_HOST, 
+    user: process.env.DB_USERNAME, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DBNAME,
 })
 
 app.get("/", (req, res) => {
@@ -66,7 +72,7 @@ app.delete('/flashcards/:id', (req, res) => {
 //     })
 // })
 
-
-app.listen(8800,()=>{
-    console.log("Server is running on port 8800");
+const PORT = process.env.PORT || 5000
+app.listen(PORT,()=>{
+    console.log("Server is running on port 5000");
 })
